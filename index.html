@@ -68,11 +68,21 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        flex-wrap: wrap;
-        gap: 10px;
+        flex-direction: column;
+
+        /* gap: 10px; */
         margin-bottom: 20px;
         padding: 10px;
 
+    }
+    .inputConatinerInside{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        /* margin-bottom: 20px; */
+        padding: 10px;
     }
 
     #inputContainerOne {
@@ -158,6 +168,15 @@
         display: none;
         text-align: center;
     }
+    .error{
+        color: red;
+        align-self: start;
+        padding: 0px 15px;
+        margin: -10px 0px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        text-transform: capitalize;
+        display: none;
+    }
    
 </style>
 
@@ -167,8 +186,12 @@
         <p id="message">All the best</p>
         <p id="gameRule">You have to guess the number between 1-100</p>
         <div class="inputContainer" id="inputContainerOne">
-            <input type="number" min="1" max="100" placeholder="enter guess number" id="inputNumberId"></input>
-            <button onclick="handleSubmit()" id="submitButton" class="submitButtonOne">Submit</button>
+            <div class="inputConatinerInside">
+                <input type="number" min="1" max="100" placeholder="enter guess number" id="inputNumberId"></input>
+                <button onclick="handleSubmit()" id="submitButton" class="submitButtonOne">Submit</button>
+            </div>
+            <p class="error">Please Enter a number</p>
+            
 
         </div>
         <p id="remaining">Remaining chances</p>
@@ -198,6 +221,7 @@
     let previouse = document.querySelector('#previouse')
     let messages = document.querySelector('#message')
     let gameRule = document.querySelector('#gameRule')
+    let errorMessage = document.querySelector('.error')
     let inputContainer = document.querySelector('#inputContainerOne')
 
 
@@ -281,6 +305,9 @@
 
 
                 const inputnumber = inputField.value
+               if(inputnumber)
+               {
+                errorMessage.style.display = 'none'
                 totalChances = totalChances - 1;
                 checkNumber(inputnumber)
 
@@ -328,6 +355,10 @@
                 }
 
 
+               }
+               else{
+                errorMessage.style.display = 'block'
+               }
             }
         }
     }
