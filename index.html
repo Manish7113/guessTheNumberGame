@@ -67,22 +67,21 @@
     .inputContainer {
         display: flex;
         justify-content: center;
-        align-items: center;
-        flex-direction: column;
-
-        /* gap: 10px; */
+        align-items: start;
+        flex-wrap: wrap;
+        gap: 10px;
         margin-bottom: 20px;
         padding: 10px;
 
     }
-    .inputConatinerInside{
+
+    .inputConatinerInside {
         display: flex;
         justify-content: center;
         align-items: center;
-        flex-wrap: wrap;
+        flex-direction: column;
         gap: 10px;
-        /* margin-bottom: 20px; */
-        padding: 10px;
+        padding: 1px;
     }
 
     #inputContainerOne {
@@ -96,6 +95,7 @@
         font-size: 1.2rem;
         border-radius: 3px;
         border: none;
+      
 
     }
 
@@ -136,8 +136,9 @@
         text-align: center;
         /* color: cyan; */
     }
+
     #gameRule {
-       /* margin: -100px; */
+        /* margin: -100px; */
         font-size: 1.3rem;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         font-weight: 500;
@@ -146,6 +147,7 @@
         display: none;
         text-align: center;
         /* color: cyan; */
+        padding: 10px;
     }
 
     #remaining {
@@ -168,16 +170,16 @@
         display: none;
         text-align: center;
     }
-    .error{
+
+    .error {
         color: red;
         align-self: start;
-        padding: 0px 15px;
+        padding: 0px 5px;
         margin: -10px 0px;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         text-transform: capitalize;
         display: none;
     }
-   
 </style>
 
 <body>
@@ -186,12 +188,16 @@
         <p id="message">All the best</p>
         <p id="gameRule">You have to guess the number between 1-100</p>
         <div class="inputContainer" id="inputContainerOne">
-            <div class="inputConatinerInside">
-                <input type="number" min="1" max="100" placeholder="enter guess number" id="inputNumberId"></input>
-                <button onclick="handleSubmit()" id="submitButton" class="submitButtonOne">Submit</button>
-            </div>
-            <p class="error">Please Enter a number</p>
             
+                <div class="inputConatinerInside">
+                    <input type="number" min="1" max="100" placeholder="enter guess number" id="inputNumberId"></input>
+                    <p class="error">Please Enter a number</p>
+
+                </div>
+                <button onclick="handleSubmit()" id="submitButton" class="submitButtonOne">Submit</button>
+          
+
+
 
         </div>
         <p id="remaining">Remaining chances</p>
@@ -228,7 +234,7 @@
 
     function generateRandomNumber() {
         randomNumber = parseInt(Math.random() * 100 + 1)
-       
+
     }
 
 
@@ -241,6 +247,7 @@
         messages.style.display = 'block'
         gameRule.style.display = 'block'
         inputContainer.style.display = 'flex'
+        errorMessage.style.display = 'none'
     }
     const handleEndtUI = () => {
         endButton.style.display = 'none'
@@ -264,7 +271,7 @@
         previouseMove = [] // set empty array to show previous move
         // document.querySelector('#submitButton').disabled = false // enable the submit button
         // for restart 
-         remainingMoves.style.color = 'white'
+        remainingMoves.style.color = 'white'
         submitButton.classList.remove("disabled"); // for restart  enable the submit button
         remainingMoves.innerHTML = `You have ${totalChances} Chances to Won the game` // to show the left chances
         handleStartUI()
@@ -292,73 +299,72 @@
             messages.style.color = 'lightgreen'
             messages.innerHTML = 'You won the match'
             submitButton.classList.add("disabled");
-            
+
 
         }
 
     }
 
     function handleSubmit() {
-        
+
         if (matchisStart) {
             if (totalChances) {
 
 
                 const inputnumber = inputField.value
-               if(inputnumber)
-               {
-                errorMessage.style.display = 'none'
-                totalChances = totalChances - 1;
-                checkNumber(inputnumber)
+                if (inputnumber) {
+                    errorMessage.style.display = 'none'
+                    totalChances = totalChances - 1;
+                    checkNumber(inputnumber)
 
-                if (matchStatus) {
-                    remainingMoves.innerHTML = `You have won the game in ${static - totalChances} Chances`
-
-                }
-                else {
-                    if (!totalChances) {
-                        messages.style.color = 'white'
-                        messages.innerHTML = 'pull your socks up & Play again';
-                        remainingMoves.innerHTML = `You loss the game`
-                        previouseMove.push(inputnumber)
-                        previouse.innerHTML = `previouse Guess ${previouseMove}`
-                        inputField.value = ''
-                        submitButton.classList.add("disabled");
-                        endButton.style.display = 'none'
-                        startButton.style.display = 'block'
-                        startButton.innerText = 'Play Again'
+                    if (matchStatus) {
+                        remainingMoves.innerHTML = `You have won the game in ${static - totalChances} Chances`
 
                     }
                     else {
-                      
-                        if (totalChances >= 7) {
-                            remainingMoves.style.color = 'lightgreen'
-                           
-                            
-                        }
-                        else if (totalChances < 7 && totalChances >= 4 ) {
-                            remainingMoves.style.color = 'yellow'
-                            
+                        if (!totalChances) {
+                            messages.style.color = 'white'
+                            messages.innerHTML = 'pull your socks up & Play again';
+                            remainingMoves.innerHTML = `You loss the game`
+                            previouseMove.push(inputnumber)
+                            previouse.innerHTML = `previouse Guess ${previouseMove}`
+                            inputField.value = ''
+                            submitButton.classList.add("disabled");
+                            endButton.style.display = 'none'
+                            startButton.style.display = 'block'
+                            startButton.innerText = 'Play Again'
 
                         }
                         else {
-                            remainingMoves.style.color = 'crimson'
-                          
+
+                            if (totalChances >= 7) {
+                                remainingMoves.style.color = 'lightgreen'
+
+
+                            }
+                            else if (totalChances < 7 && totalChances >= 4) {
+                                remainingMoves.style.color = 'yellow'
+
+
+                            }
+                            else {
+                                remainingMoves.style.color = 'crimson'
+
+                            }
+                            remainingMoves.innerHTML = `You have ${totalChances} left Chances to Won the game`
+                            previouseMove.push(inputnumber)
+                            previouse.innerHTML = `previouse guess ${previouseMove}`
+                            inputField.value = ''
+
                         }
-                        remainingMoves.innerHTML = `You have ${totalChances} left Chances to Won the game`
-                        previouseMove.push(inputnumber)
-                        previouse.innerHTML = `previouse guess ${previouseMove}`
-                        inputField.value = ''
 
                     }
 
+
                 }
-
-
-               }
-               else{
-                errorMessage.style.display = 'block'
-               }
+                else {
+                    errorMessage.style.display = 'block'
+                }
             }
         }
     }
